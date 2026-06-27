@@ -1,0 +1,36 @@
+services:
+
+  mysql:
+    image: mysql:8
+    container_name: panna_mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: Shivasati@1136
+      MYSQL_DATABASE: panna_diamond
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  app:
+    build: .
+
+    container_name: panna_backend
+
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      - mysql
+
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/panna_diamond
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Shivasati@1136
+
+
+volumes:
+  mysql_data:
