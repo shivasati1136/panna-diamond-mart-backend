@@ -2,6 +2,7 @@ package com.panna.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "wishlist")
@@ -26,4 +27,7 @@ public class Wishlist {
 
     // PRODUCT IMAGE
     private String imageUrl;
+
+    // Created Date
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

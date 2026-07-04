@@ -65,6 +65,12 @@ public class ProductService {
                         new RuntimeException("Product not found"));
     }
 
+    public List<Product> getRelatedProducts(String category) {
+
+        return productRepository.findByCategoryIgnoreCase(category);
+
+    }
+
     // UPDATE PRODUCT
     public Product updateProduct(Long id, ProductRequest request) {
 

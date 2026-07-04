@@ -31,6 +31,22 @@ public class CartService {
         ).orElseThrow(() ->
                 new RuntimeException("Product not found")
         );
+        Cart existingCart = cartRepository
+                .findByUserEmailAndProductId(
+                        userEmail,
+                        product.getId()
+                )
+                .orElse(null);
+
+        if (existingCart != null) {
+
+            existingCart.setQuantity(
+                    existingCart.getQuantity()
+                            + request.getQuantity()
+            );
+
+            return cartRepository.save(existingCart);
+        }
 
         Cart cart = new Cart();
 
@@ -56,7 +72,26 @@ public class CartService {
 
         return cartRepository.findByUserEmail(userEmail);
     }
+    // =========================
+    // UPDATE CART QUANTITY
+    // =========================
+    public Cart updateQuantity(
+            Long cartId,
+            Integer quantity
+    ) {
 
+        if (quantity < 1) {
+            throw new RuntimeException("Quantity must be at least 1");
+        }
+
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() ->
+                        new RuntimeException("Cart item not found"));
+
+        cart.setQuantity(quantity);
+
+        return cartRepository.save(cart);
+    }
     // =========================
     // REMOVE CART ITEM
     // =========================
@@ -66,4 +101,5 @@ public class CartService {
 
         return "Item removed from cart";
     }
+
 }

@@ -20,10 +20,19 @@ public class WishlistService {
     // =========================
     // ADD TO WISHLIST
     // =========================
+
     public Wishlist addToWishlist(
             String userEmail,
             Long productId
     ) {
+        if (wishlistRepository.existsByUserEmailAndProductId(
+                userEmail,
+                productId)) {
+
+            throw new RuntimeException(
+                    "Product is already in your wishlist."
+            );
+        }
 
         Product product = productRepository.findById(productId)
                 .orElseThrow(() ->
@@ -51,7 +60,7 @@ public class WishlistService {
             String userEmail
     ) {
 
-        return wishlistRepository.findByUserEmail(userEmail);
+        return wishlistRepository.findByUserEmailOrderByCreatedAtDesc(userEmail);
     }
 
     // =========================
@@ -59,8 +68,26 @@ public class WishlistService {
     // =========================
     public String removeWishlistItem(Long id) {
 
-        wishlistRepository.deleteById(id);
+        Wishlist wishlist = wishlistRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Wishlist item not found"));
+
+        wishlistRepository.delete(wishlist);
 
         return "Item removed from wishlist";
+    }
+    // =========================
+// CHECK WISHLIST
+// =========================
+    public boolean isWishlisted(
+            String userEmail,
+            Long productId
+    ) {
+
+        return wishlistRepository
+                .existsByUserEmailAndProductId(
+                        userEmail,
+                        productId
+                );
     }
 }

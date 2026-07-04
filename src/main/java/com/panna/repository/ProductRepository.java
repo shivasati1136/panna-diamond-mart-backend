@@ -12,4 +12,5 @@ public interface ProductRepository
             String name,
             String category
     );
+    List<Product> findByCategoryIgnoreCase(String category);
 }

@@ -106,4 +106,12 @@ public class ProductController {
 
         return productService.deleteProduct(id);
     }
+    @GetMapping("/category/{category}")
+    public List<Product> getRelatedProducts(
+            @PathVariable String category
+    ) {
+
+        return productService.getRelatedProducts(category);
+
+    }
 }

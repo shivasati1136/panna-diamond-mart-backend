@@ -52,7 +52,7 @@ public class Order {
         createdAt = LocalDateTime.now();
 
         if (status == null) {
-            status = "PENDING";
+            status = "PLACED";
         }
     }
 }

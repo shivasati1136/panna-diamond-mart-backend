@@ -54,7 +54,7 @@ public class OrderService {
         order.setCity(address.getCity());
         order.setState(address.getState());
         order.setPincode(address.getPincode());
-
+        order.setStatus("PLACED");
         return orderRepository.save(order);
     }
 
@@ -106,8 +106,8 @@ public class OrderService {
                         new RuntimeException("Order not found"));
 
         // Sirf PENDING order cancel ho sakta hai
-        if (!order.getStatus().equals("PENDING")) {
-            throw new RuntimeException("Only PENDING orders can be cancelled.");
+        if (!order.getStatus().equals("PLACED")) {
+            throw new RuntimeException("Only PLACED orders can be cancelled.");
         }
 
         order.setStatus("CANCELLED");

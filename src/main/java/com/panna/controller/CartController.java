@@ -45,7 +45,22 @@ public class CartController {
 
         return cartService.getUserCart(email);
     }
+    // =========================
+    // UPDATE QUANTITY
+    // =========================
+    @PutMapping("/update/{id}")
+    public Cart updateQuantity(
 
+            @PathVariable Long id,
+
+            @RequestParam Integer quantity
+    ) {
+
+        return cartService.updateQuantity(
+                id,
+                quantity
+        );
+    }
     // =========================
     // REMOVE CART ITEM
     // =========================

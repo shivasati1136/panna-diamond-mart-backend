@@ -58,4 +58,20 @@ public class WishlistController {
 
         return wishlistService.removeWishlistItem(id);
     }
+    // =========================
+// CHECK WISHLIST
+// =========================
+    @GetMapping("/check/{productId}")
+    public boolean isWishlisted(
+            Authentication authentication,
+            @PathVariable Long productId
+    ) {
+
+        String email = authentication.getName();
+
+        return wishlistService.isWishlisted(
+                email,
+                productId
+        );
+    }
 }
